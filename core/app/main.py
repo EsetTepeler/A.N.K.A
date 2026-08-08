@@ -119,6 +119,10 @@ async def rag_status():
 async def rag_reindex():
     if not indexer.available:
         return {"error": "RAG aktif degil (proje dizini veya API anahtari eksik)."}
-    await indexer.ensure_ready()
+    try:
+        await indexer.ensure_ready()
+    except Exception as exc:
+        logger.exception("RAG hazirlik hatasi")
+        return {"error": f"RAG hazirlik hatasi: {type(exc).__name__}: {exc}"}
     asyncio.create_task(indexer.index_all())
     return {"status": "indexleme baslatildi", "root": str(indexer.root)}
