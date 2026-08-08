@@ -1,0 +1,9 @@
+fastapi>=0.115
+uvicorn[standard]>=0.32
+google-genai>=1.0
+pydantic>=2.9
+pydantic-settings>=2.6
+redis>=5.2
+aiosqlite>=0.20
+websockets>=13.0
+python-dotenv>=1.0

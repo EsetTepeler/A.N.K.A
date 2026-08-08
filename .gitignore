@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Ortam degiskenleri - ASLA commit etme
+.env
+
+# Veri dizinleri
+data/
+*.db
+*.sqlite3
+
+# IDE
+.vscode/
+.idea/
+
+# Loglar
+logs/
+*.log
+
+# Node (whatsapp-bridge icin)
+node_modules/
