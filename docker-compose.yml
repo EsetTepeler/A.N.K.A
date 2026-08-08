@@ -3,8 +3,8 @@ services:
     image: qdrant/qdrant:latest
     container_name: anka-qdrant
     ports:
-      - "6333:6333"
-      - "6334:6334"
+      - "${QDRANT_PORT:-6333}:6333"
+      - "${QDRANT_GRPC_PORT:-6334}:6334"
     volumes:
       - qdrant_data:/qdrant/storage
     restart: unless-stopped
@@ -13,7 +13,7 @@ services:
     image: redis:7-alpine
     container_name: anka-redis
     ports:
-      - "6379:6379"
+      - "${REDIS_PORT:-6379}:6379"
     volumes:
       - redis_data:/data
     command: redis-server --appendonly yes
@@ -23,15 +23,19 @@ services:
     build: ./core
     container_name: anka-core
     ports:
-      - "8000:8000"
+      # Host portu .env'deki ANKA_PORT ile degistirilebilir (konteyner ici hep 8000)
+      - "${ANKA_PORT:-8000}:8000"
     env_file:
       - .env
     environment:
       - REDIS_URL=redis://redis:6379/0
       - QDRANT_URL=http://qdrant:6333
       - ANKA_DB_PATH=/data/anka.db
+      - ANKA_PROJECTS_ROOT=/projects
     volumes:
       - core_data:/data
+      # Indexlenecek kod projelerinin bulundugu dizin (.env: ANKA_PROJECTS_DIR)
+      - ${ANKA_PROJECTS_DIR:-./projects}:/projects:ro
     depends_on:
       - redis
       - qdrant

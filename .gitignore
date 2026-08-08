@@ -12,10 +12,12 @@ venv/
 data/
 *.db
 *.sqlite3
+projects/
 
 # IDE
 .vscode/
 .idea/
+plan.md
 
 # Loglar
 logs/

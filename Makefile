@@ -16,6 +16,8 @@ help:
 	@echo   make logs     - core servisinin loglarini izle
 	@echo   make health   - saglik kontrolu
 	@echo   make reset    - 'default' oturumunun baglamini sifirla
+	@echo   make index    - kod projelerini yeniden indexle
+	@echo   make rag      - RAG durumunu goster
 
 install:
 	python -m venv .venv
@@ -41,3 +43,9 @@ health:
 
 reset:
 	curl -X POST http://localhost:8000/session/default/reset
+
+index:
+	curl -X POST http://localhost:8000/rag/reindex
+
+rag:
+	curl http://localhost:8000/rag/status

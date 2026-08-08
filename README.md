@@ -17,7 +17,7 @@ Tüm zekâ Core API'dedir; diğer modüller Core'a WebSocket/HTTP ile bağlanan 
 
 - [x] **Faz 0** — İskelet, docker-compose (Qdrant + Redis + Core)
 - [x] **Faz 1** — Core API, Gemini gateway, tool-calling ajan döngüsü
-- [ ] **Faz 2** — RAG: kod/doküman indexleme, hybrid arama
+- [x] **Faz 2** — RAG: kod/doküman indexleme, semantik arama, watchdog
 - [ ] **Faz 3** — OS kontrolü + güvenlik onay mekanizması
 - [ ] **Faz 4** — Sesli iletişim (wake word → STT → TTS)
 - [ ] **Faz 5** — WhatsApp otomasyonu (Baileys köprüsü)
@@ -64,8 +64,20 @@ core/app/
 ├── agent/           # Ajan dongusu (tool-calling loop)
 ├── llm/             # LLM Gateway (Gemini adapter)
 ├── tools/           # Arac kayit merkezi + risk siniflari
+├── rag/             # Indexleyici, chunker, embedder, watcher
 └── memory/          # Konusma gecmisi (bellek + SQLite)
 ```
+
+## RAG (Proje Asistanlığı)
+
+`.env` içindeki `ANKA_PROJECTS_DIR` host'taki kod projelerinin kök dizinini gösterir;
+docker-compose bunu konteynere salt-okunur `/projects` olarak bağlar.
+Her alt klasör bir "proje" sayılır.
+
+- Açılışta değişen dosyalar otomatik indexlenir (hash karşılaştırmalı, artımlı)
+- Watchdog dosya değişikliklerini izler, otomatik günceller
+- Ajan `search_codebase` aracıyla semantik arama yapar
+- Elle tetikleme: `make index`, durum: `make rag`
 
 ## Güvenlik Modeli
 
